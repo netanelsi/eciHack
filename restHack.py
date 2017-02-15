@@ -4,10 +4,26 @@ from gopigo import *
 import time
 
 app = Flask(__name__)
+app.config['SERVER_NAME'] = '192.168.43.195:5000'
 
+
+tasks = [
+    {
+        'id': 1,
+        'title': u'Buy groceries',
+        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
+        'done': False
+    },
+    {
+        'id': 2,
+        'title': u'Learn Python',
+        'description': u'Need to find a good Python tutorial on the web',
+        'done': False
+    }
+]
 
 @app.route('/todo/go_forward', methods=['GET'])
-def go_forward(DistanceInCm):
+def go_foreward(DistanceInCm = 5):
     enable_encoders()
     ActualEncoderReading = enc_read(0)
     EncoderSteps = (DistanceInCm / (6.3 * 3.14)) * 18
@@ -15,8 +31,8 @@ def go_forward(DistanceInCm):
 
     fwd()
 
-    while enc_read(0) < FinalEncoderStep
-        time.wait(0.1)
+    while enc_read(0) < FinalEncoderStep:
+        time.sleep(0.1)
         continue
 
     stop()
@@ -32,8 +48,12 @@ def go_backward():
 
 @app.route('/todo/go_right', methods=['GET'])
 def go_right():
+    print('aa')
     right()
-    time.wait(0.1)
+    print('bb')
+    # time.wait(0.1)
+    time.sleep(1)
+    print('cc')
     stop()
 
     return 'go right'
@@ -42,19 +62,10 @@ def go_right():
 @app.route('/todo/go_left', methods=['GET'])
 def go_left():
     left()
-    time.wait(0.1)
+    time.sleep(0.1)
     stop()
 
     return 'go left'
 
-
-@app.route('/todo/init', methods=['GET'])
-def FirstSetp(NumOfCars, RequiredDistance):
-    MyCarId = 0;
-    DistanceToMove = (RequiredDistance * (NumOfCars - 1)) - (MyCarId * RequiredDistance)
-    go_forward(DistanceToMove)
-    return
-
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run(host='0.0.0.0', port = int('5000'),debug=True)
